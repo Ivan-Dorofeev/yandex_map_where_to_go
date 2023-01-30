@@ -4,7 +4,7 @@
 
 Проект - сайт для создания гео-точек с фотографиями и описанием:
 
-[https://axxel123.pythonanywhere.com/](https://axxel123.pythonanywhere.com/)
+[https://yandex-map-where-to-go.ru/](https://axxel123.pythonanywhere.com/)
 
 <img width="781" alt="image" src="https://user-images.githubusercontent.com/58893102/194596161-8b56ce6e-f110-412d-9584-4251f686e551.png">
 
