@@ -11,11 +11,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = secret_key
 
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
-# ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
-ALLOWED_HOSTS = ['axxel123.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
+# ALLOWED_HOSTS = ['axxel123.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,17 +41,17 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
-# CSRF_COOKIE_SECURE = False
-# SECURE_SSL_REDIRECT = False
-# SESSION_COOKIE_SECURE = False
-# SECURE_HSTS_PRELOAD = False
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_SECONDS = 3600
+CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+SECURE_HSTS_PRELOAD = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_SECONDS = 3600
 
 ROOT_URLCONF = 'where_to_go.urls'
 
