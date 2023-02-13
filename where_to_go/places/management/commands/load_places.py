@@ -1,7 +1,6 @@
 import json
 import os
 from pathlib import Path
-from django.core.files.base import ContentFile
 import requests
 from django.core.management import BaseCommand, CommandError
 from django.core.files.base import ContentFile
@@ -19,15 +18,13 @@ def prepare_images(new_images_paths):
         except Exception as exc:
             print(f'Ошибка при скачивании картинки: {exc}')
             continue
-        img_name_and_content = (img_name, content)
-        images.append(img_name_and_content)
+        images.append((img_name, content))
     return images
 
 
 class Command(BaseCommand):
-    def handle(*args, **options):
-        new_places_jsons_path = Path(os.getcwd(), 'places-examples/places/')
-        # new_media_jsons_path = Path(os.getcwd(), 'places-examples/media/')
+    def handle(self, *args, **options):
+        new_places_jsons_path = '/places_and_pictures/places/'
 
         for address, dirs, files in os.walk(new_places_jsons_path):
             for json_file in files:
@@ -36,15 +33,17 @@ class Command(BaseCommand):
                     readed_json_file = json.load(ff)
                     readed_images = readed_json_file['imgs']
                 try:
-                    create_location = Location.objects.get_or_create(
+                    created_location = Location.objects.get_or_create(
                         title=readed_json_file['title'],
-                        description=readed_json_file['description_short'],
-                        text=readed_json_file['description_long'],
-                        latitude=readed_json_file['coordinates']['lng'],
-                        longtitude=readed_json_file['coordinates']['lat'],
+                        defaults={
+                            'short_description': readed_json_file['description_short'],
+                            'long_description': readed_json_file['description_long'],
+                            'latitude': readed_json_file['coordinates']['lng'],
+                            'longtitude': readed_json_file['coordinates']['lat']
+                        }
                     )
 
-                    image_location = create_location[0]
+                    image_location = created_location[0]
                     print('image_location = ', image_location)
 
                     download_images = prepare_images(readed_images)
@@ -52,13 +51,15 @@ class Command(BaseCommand):
                         img_file_name = download_image[0]
                         img_content = ContentFile(download_image[1])
 
-                        creat_image_model = Image.objects.get_or_create(
+                        created_image_model = Image.objects.create(
                             location=image_location,
                             image=img_file_name,
                         )
-                        print('creat_image_model = ', creat_image_model)
-                        save_image_to_model = creat_image_model[0].image.save(img_file_name, img_content, save=True)
+                        print('created_image_model = ', created_image_model)
+                        save_image_to_model = created_image_model[0].image.save(img_file_name, img_content, save=True)
                         print('save_image_to_model = ', save_image_to_model)
 
+                        self.stdout.write(self.style.SUCCESS('Successfully closed poll'))
+
                 except Location.DoesNotExist:
-                    raise CommandError('Poll "%s" does not exist' % readed_json_file['title'])
+                    raise CommandError('Location cant find - "%s"' % readed_json_file['title'])

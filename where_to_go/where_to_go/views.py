@@ -29,5 +29,4 @@ def main(request):
         }
     }
 
-    print('Количество запросов к БД = ',len(connection.queries))
     return render(request, 'index.html', context)

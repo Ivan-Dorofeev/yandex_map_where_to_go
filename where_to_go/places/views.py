@@ -5,7 +5,7 @@ from django.db import connection
 
 
 def places(request, place_id):
-    place = get_object_or_404(Location, id=place_id)
+    place = get_object_or_404(Location.objects.prefetch_related('id'), id=place_id)
     images = place.images.all()
 
 
@@ -20,5 +20,4 @@ def places(request, place_id):
         }
     }
 
-    print('Количество запросов к БД = ', len(connection.queries))
     return JsonResponse(context, safe=False, json_dumps_params={'indent': 2, 'ensure_ascii': False})
