@@ -39,6 +39,12 @@
 * [Bootstrap](https://getbootstrap.com/) — CSS библиотека
 * [Vue.js](https://ru.vuejs.org/) — реактивные шаблоны на фронтенде
 
+### Необходимые файлы
+
+В директории, где находятся **settings.py** создайте файл **.env** .
+В него разместите:
+- свой SECRET_KEY
+- DEBUG=False
 
 
 
