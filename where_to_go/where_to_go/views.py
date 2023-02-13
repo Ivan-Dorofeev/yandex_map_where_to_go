@@ -1,7 +1,7 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from places.models import Location, Image
+from django.db import connection
+from places.models import Location
 
 
 def main(request):
@@ -20,12 +20,14 @@ def main(request):
                     "title": location.title,
                     "placeId": location.id,
                     "detailsUrl": reverse('places', args=[location.id])
-                    }
-                })
+                }
+            })
     context = {
         'geo_data': {
             "type": "FeatureCollection",
             "features": features
         }
     }
+
+    print('Количество запросов к БД = ',len(connection.queries))
     return render(request, 'index.html', context)

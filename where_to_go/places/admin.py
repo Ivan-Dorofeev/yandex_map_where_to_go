@@ -6,7 +6,7 @@ from adminsortable2.admin import SortableInlineAdminMixin
 
 class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
-    readonly_fields = ['image', ]
+    readonly_fields = ['image', 'image_preview', ]
     fields = ['location', 'image']
 
     def image_preview(self, obj):

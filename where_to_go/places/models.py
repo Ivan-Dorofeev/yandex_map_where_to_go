@@ -4,11 +4,10 @@ from tinymce.models import HTMLField
 
 class Location(models.Model):
     title = models.CharField('Название места', max_length=50)
-    description = models.CharField('Короткое описание', max_length=500, blank=True, null=True)
-    text = HTMLField('Полное описание',blank=True, null=True)
-    latitude = models.FloatField('Широта', blank=True, null=True)
-    longtitude = models.FloatField('Долгота', blank=True, null=True)
-
+    long_description = models.CharField('Короткое описание', max_length=500)
+    short_description = HTMLField('Полное описание')
+    latitude = models.FloatField('Широта')
+    longtitude = models.FloatField('Долгота')
 
     class Meta:
         ordering = ["title", ]

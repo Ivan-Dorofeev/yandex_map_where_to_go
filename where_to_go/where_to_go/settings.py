@@ -5,16 +5,14 @@ from environs import Env
 
 env = Env()
 env.read_env()
-secret_key = env("SECRET_KEY")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = secret_key
+SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = True
-# DEBUG = False
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
 # ALLOWED_HOSTS = ['axxel123.pythonanywhere.com']
 
 INSTALLED_APPS = [
@@ -24,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "debug_toolbar",
     'where_to_go',
     'places',
     'adminsortable2',
@@ -39,13 +38,26 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django.middleware.security.SecurityMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
-CSRF_COOKIE_SECURE = False
+CORS_REPLACE_HTTPS_REFERER = False
+HOST_SCHEME = "http://"
+SECURE_PROXY_SSL_HEADER = None
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
-SECURE_HSTS_PRELOAD = False
+CSRF_COOKIE_SECURE = False
+SECURE_HSTS_SECONDS = None
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_FRAME_DENY = False
+
+# CSRF_COOKIE_SECURE = False
+# SECURE_SSL_REDIRECT = False
+# SESSION_COOKIE_SECURE = False
+# SECURE_HSTS_PRELOAD = False
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+
 # CSRF_COOKIE_SECURE = True
 # SECURE_SSL_REDIRECT = True
 # SESSION_COOKIE_SECURE = True
@@ -106,12 +118,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = Path(BASE_DIR / 'where_to_go/static')
-MEDIA_ROOT = Path(BASE_DIR / 'media')
+STATIC_ROOT = BASE_DIR / 'where_to_go/static'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# print("STATIC_ROOT:", STATIC_ROOT)
-# print("MEDIA_ROOT:", MEDIA_ROOT)

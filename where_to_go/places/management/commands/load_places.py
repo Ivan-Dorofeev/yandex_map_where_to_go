@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+from django.core.files.base import ContentFile
 import requests
 from django.core.management import BaseCommand, CommandError
 from django.core.files.base import ContentFile
@@ -13,6 +14,7 @@ def prepare_images(new_images_paths):
         img_name = img.split('/')[-1]
         try:
             response = requests.get(img)
+            response.raise_for_status()
             content = response.content
         except Exception as exc:
             print(f'Ошибка при скачивании картинки: {exc}')
@@ -24,7 +26,8 @@ def prepare_images(new_images_paths):
 
 class Command(BaseCommand):
     def handle(*args, **options):
-        new_places_jsons_path = Path(os.getcwd(), 'places_and_pictures/places/')
+        new_places_jsons_path = Path(os.getcwd(), 'places-examples/places/')
+        # new_media_jsons_path = Path(os.getcwd(), 'places-examples/media/')
 
         for address, dirs, files in os.walk(new_places_jsons_path):
             for json_file in files:
@@ -44,18 +47,18 @@ class Command(BaseCommand):
                     image_location = create_location[0]
                     print('image_location = ', image_location)
 
-                    if create_location[0].title == 'Экскурсионный проект «Крыши24.рф»':
-                        download_images = prepare_images(readed_images)
-                        for download_image in download_images:
-                            img_file_name = download_image[0]
-                            img_content = ContentFile(download_image[1])
+                    download_images = prepare_images(readed_images)
+                    for download_image in download_images:
+                        img_file_name = download_image[0]
+                        img_content = ContentFile(download_image[1])
 
-                            creat_image_model = Image.objects.get_or_create(
-                                location=image_location,
-                                image=img_file_name,
-                            )
-                            print('creat_image_model = ', creat_image_model)
-                            if creat_image_model[1]:
-                                creat_image_model[0].image.save(img_file_name, img_content, save=True)
+                        creat_image_model = Image.objects.get_or_create(
+                            location=image_location,
+                            image=img_file_name,
+                        )
+                        print('creat_image_model = ', creat_image_model)
+                        save_image_to_model = creat_image_model[0].image.save(img_file_name, img_content, save=True)
+                        print('save_image_to_model = ', save_image_to_model)
+
                 except Location.DoesNotExist:
                     raise CommandError('Poll "%s" does not exist' % readed_json_file['title'])
