@@ -10,7 +10,7 @@ class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
     fields = ['location', 'image']
 
     def image_preview(self, obj):
-        return obj.image_preview
+        return obj
 
 
 @admin.register(Location)
