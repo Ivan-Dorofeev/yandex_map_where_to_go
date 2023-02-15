@@ -6,7 +6,7 @@
 
 [https://yandex-map-where-to-go.ru/](https://axxel123.pythonanywhere.com/)
 
-<img width="781" alt="image" src="https://user-images.githubusercontent.com/58893102/194596161-8b56ce6e-f110-412d-9584-4251f686e551.png">
+<img width="1000" alt="image" src="https://user-images.githubusercontent.com/58893102/218958707-93a7489c-e653-4d08-b2b6-e8cefdbedafa.png">
 
 ### Как запустить
 - Скачайте код
@@ -26,7 +26,7 @@
 ### Настройки
 Внизу справа на странице можно включить отладочный режим логгирования.
 
-<img width="177" alt="image" src="https://user-images.githubusercontent.com/58893102/194594930-09a736a1-63d4-4157-9f24-ac158668e2c5.png">
+<img width="177" alt="image" src="https://user-images.githubusercontent.com/58893102/218959326-29d2b0cb-f4cd-4a23-b3a0-69db2022bdac.png">
 
 Настройки сохраняются в Local Storage браузера и не пропадают после обновления страницы. Чтобы сбросить настройки удалите ключи из Local Storage с помощью Chrome Dev Tools —> Вкладка Application —> Local Storage.
 
