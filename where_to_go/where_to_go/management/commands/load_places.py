@@ -23,8 +23,12 @@ def prepare_images(new_images_paths):
 
 
 class Command(BaseCommand):
+    print('Вызываю команду')
+
     def handle(self, *args, **options):
-        new_places_jsons_path = '/places_and_pictures/places/'
+        BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent.parent
+        new_places_jsons_path = os.path.join(BASE_DIR, 'places_and_pictures/places/')
+        print(new_places_jsons_path)
 
         for address, dirs, files in os.walk(new_places_jsons_path):
             for json_file in files:
@@ -51,15 +55,12 @@ class Command(BaseCommand):
                         img_file_name = download_image[0]
                         img_content = ContentFile(download_image[1])
 
-                        created_image_model = Image.objects.create(
+                        created_image_model = Image.objects.get_or_create(
                             location=image_location,
                             image=img_file_name,
                         )
+                        created_image_model[0].image.save(img_file_name, img_content, save=True)
+
                         print('created_image_model = ', created_image_model)
-                        save_image_to_model = created_image_model[0].image.save(img_file_name, img_content, save=True)
-                        print('save_image_to_model = ', save_image_to_model)
-
-                        self.stdout.write(self.style.SUCCESS('Successfully closed poll'))
-
                 except Location.DoesNotExist:
                     raise CommandError('Location cant find - "%s"' % readed_json_file['title'])

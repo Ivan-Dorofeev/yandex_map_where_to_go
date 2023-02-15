@@ -5,7 +5,7 @@ from django.db import connection
 
 
 def places(request, place_id):
-    place = get_object_or_404(Location.objects.prefetch_related('id'), id=place_id)
+    place = get_object_or_404(Location, id=place_id)
     images = place.images.all()
 
 
