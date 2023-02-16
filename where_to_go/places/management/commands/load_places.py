@@ -62,15 +62,20 @@ class Command(BaseCommand):
                     )
 
                     download_images = prepare_images(read_images)
-                    for download_image in download_images:
-                        img_file_name = download_image[0]
-                        img_content = ContentFile(download_image[1])
+                    for img_file_name, pre_content_img in enumerate(download_images):
+                        img_content = ContentFile(pre_content_img)
 
-                        created_image_model = Image.objects.get_or_create(
+                        # created_image_model = Image.objects.get_or_create(
+                        #     location=place,
+                        #     image=img_file_name,
+                        # )
+                        # created_image_model[0].image.save(img_file_name, img_content, save=True)
+
+                        created_image_model = Image.objects.create(
                             location=place,
                             image=img_file_name,
                         )
-                        created_image_model[0].image.save(img_file_name, img_content, save=True)
+                        created_image_model.save(img_file_name, img_content)
 
                 except Location.DoesNotExist:
-                    raise CommandError('Location cant find - "%s"' % read_json_file['title'])
+                    raise CommandError('Location does not exist: "%s"' % read_json_file['title'])
