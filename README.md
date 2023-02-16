@@ -48,7 +48,7 @@
 
 В директории, где находятся **settings.py** создайте файл **.env** .
 В него разместите:
-- свой SECRET_KEY
+- SECRET_KEY="свой DJANGO SECRET_KEY" (подробнее [тут](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key))
 - DEBUG=False
 
 
