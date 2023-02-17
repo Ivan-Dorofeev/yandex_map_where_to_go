@@ -12,16 +12,13 @@ class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
     fields = ['location', 'image', 'image_preview', 'index']
 
     def image_preview(self, model):
-        try:
-            preview = mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
-                url=model.image.url,
-                width=400,
-                height=200,
-            )
-            )
-            return preview
-        except Exception as exc:
-            print(Exception, exc)
+        preview = mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url=model.image.url,
+            width=400,
+            height=200,
+        )
+        )
+        return format_html(preview)
 
 
 @admin.register(Location)

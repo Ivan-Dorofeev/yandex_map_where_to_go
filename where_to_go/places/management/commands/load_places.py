@@ -30,19 +30,18 @@ class Command(BaseCommand):
         parser.add_argument(
             '-p',
             '--path',
-            nargs='+',
             type=str,
+            required=True,
             help='Указывается путь откуда будут будут браться JSON файлы. По умолчанию из places_and_pictures/places/'
         )
 
     def handle(self, *args, **options):
         base_dir = BASE_DIR.resolve().parent
-        new_places_jsons_path = os.path.join(base_dir, 'places_and_pictures/places/')
-        if options['path']:
-            try:
-                new_places_jsons_path = os.path.join(base_dir, str(options['path'][0]))
-            except Exception as exc:
-                print('Проблемы с указанием пути для JSON файла: ', exc)
+        try:
+            new_places_jsons_path = os.path.join(base_dir, options['path'])
+            print('new_places_jsons_path = ', new_places_jsons_path)
+        except Exception as exc:
+            print('Проблемы с указанием пути для JSON файла: ', exc)
 
         for address, dirs, files in os.walk(new_places_jsons_path):
             for json_file in files:
@@ -62,6 +61,7 @@ class Command(BaseCommand):
                     )
 
                     download_images = prepare_images(read_images)
+                    print('place = ', place)
                     for number, download_image in enumerate(download_images):
                         img_file_name = download_image[0]
                         img_content = download_image[1]
@@ -71,7 +71,6 @@ class Command(BaseCommand):
                             location=place,
                             image=ContentFile(img_content, img_file_name),
                         )
+                        print('img_file_name = ', place)
                 except Location.DoesNotExist:
                     raise CommandError('Location does not exist: "%s"' % read_json_file['title'])
-
-                # image=ContentFile(response.content, name=image_url.split("/")[-1]),
