@@ -48,8 +48,12 @@
 
 В директории, где находятся **settings.py** создайте файл **.env** .
 В него разместите:
-- SECRET_KEY="свой DJANGO SECRET_KEY" (подробнее [тут](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key))
-- DEBUG=False
+- SECRET_KEY="свой DJANGO SECRET_KEY" 
+
+  (Уникальный ключ для безопасности данных приложения. Если хотите знать поподробнее [сюда](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key))
+- DEBUG=True 
+
+  (True - чтобы иметь возможность видеть ошибки при расширении проекта, добавлении данных и т.д.)
 
 
 
