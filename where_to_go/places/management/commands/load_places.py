@@ -37,11 +37,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         base_dir = BASE_DIR.resolve().parent
-        try:
-            new_places_jsons_path = os.path.join(base_dir, options['path'])
-            print('new_places_jsons_path = ', new_places_jsons_path)
-        except Exception as exc:
-            print('Проблемы с указанием пути для JSON файла: ', exc)
+        new_places_jsons_path = os.path.join(base_dir, options['path'])
+        if not os.path.exists(new_places_jsons_path):
+            raise FileExistsError(f'Не существует такого пути к файлам: {new_places_jsons_path}')
 
         for address, dirs, files in os.walk(new_places_jsons_path):
             for json_file in files:
@@ -49,7 +47,7 @@ class Command(BaseCommand):
                 with open(json_file_path, 'r') as json_file:
                     read_json_file = json.load(json_file)
                     read_images = read_json_file['imgs']
-                try:
+
                     place, created = Location.objects.get_or_create(
                         title=read_json_file['title'],
                         defaults={
@@ -61,7 +59,7 @@ class Command(BaseCommand):
                     )
 
                     download_images = prepare_images(read_images)
-                    print('place = ', place)
+
                     for number, download_image in enumerate(download_images):
                         img_file_name = download_image[0]
                         img_content = download_image[1]
@@ -71,6 +69,3 @@ class Command(BaseCommand):
                             location=place,
                             image=ContentFile(img_content, img_file_name),
                         )
-                        print('img_file_name = ', place)
-                except Location.DoesNotExist:
-                    raise CommandError('Location does not exist: "%s"' % read_json_file['title'])

@@ -19,7 +19,7 @@ class Location(models.Model):
 class Image(models.Model):
     location = models.ForeignKey(Location, verbose_name='Локация', related_name='images', on_delete=models.CASCADE, )
     image = models.ImageField(verbose_name='Картинка')
-    index = models.IntegerField(verbose_name='Позиция', null=True, blank=True, default=1)
+    index = models.IntegerField(verbose_name='Позиция', blank=True, default=1)
 
     def __str__(self):
         return f'{self.location} - {self.image}'
