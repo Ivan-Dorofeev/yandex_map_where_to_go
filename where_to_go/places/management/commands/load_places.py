@@ -36,8 +36,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        base_dir = BASE_DIR.resolve().parent
-        new_places_jsons_path = os.path.join(base_dir, options['path'])
+        new_places_jsons_path = options['path']
         if not os.path.exists(new_places_jsons_path):
             raise FileExistsError(f'Не существует такого пути к файлам: {new_places_jsons_path}')
 
